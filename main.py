@@ -1,12 +1,15 @@
 import cv2
 import numpy as np
-from tasks import AlvinsSchatzsuche
+from tasks import AlvinsSchatzsuche, Nebel
 
 
 def main():
     oAlvinsSchatzsuche = AlvinsSchatzsuche()
+    oNebel = Nebel()
+    possible = oNebel.is_ubahn_eingang_possible()
+    print(possible)
     #oAlvinsSchatzsuche.calculate_center()
-    oAlvinsSchatzsuche.recognize_ropes_of_image()
+    #oAlvinsSchatzsuche.recognize_ropes_of_image()
 
 
     # ranges = {

@@ -1,3 +1,4 @@
+from re import S
 import cv2
 import numpy as np
 
@@ -22,6 +23,45 @@ class Task():
         cv2.waitKey(0)
 
 
+class Nebel(Task):
+
+    def __init__(self):
+        super(Task, self).__init__()
+
+    def is_job_possible(self, oCropImage):
+        #prüben ob die Farbe Rot in einem bestimmten Bereich vorhanden ist
+        aRedLower = np.array([0, 0, 128])
+        aRedUpper = np.array([60, 60, 255])
+        oMask = cv2.inRange(oCropImage, aRedLower, aRedUpper)
+        if np.sum(oMask) > 0:
+            return True
+        else:
+            return False
+
+    def is_racketenwrack_possible(self):
+        #prüben ob die Farbe Rot in einem bestimmten Bereich vorhanden ist
+        oImage = cv2.imread('assets/nebel-main.png')
+        #oImage = cv2.imread('assets/nebel-main-rackenwrack-not-possible.png')
+        nHeight = np.size(oImage, 0)
+        nWidth = np.size(oImage, 1)
+        nXCenter = (int)(nWidth / 2)
+        nYCenter = (int)(nHeight / 2)
+        oCropImage = oImage[nYCenter - 50:nYCenter + 30,
+                           (int)(nXCenter + (nXCenter / 2)):nWidth - 300]
+        return self.is_job_possible(oCropImage)
+
+    def is_ubahn_eingang_possible(self):
+        #prüben ob die Farbe Rot in einem bestimmten Bereich vorhanden ist
+        oImage = cv2.imread('assets/nebel-main.png')
+        nHeight = np.size(oImage, 0)
+        nWidth = np.size(oImage, 1)
+        nXCenter = (int)(nWidth / 2)
+        nYCenter = (int)(nHeight / 2)
+        oCropImage = oImage[nYCenter + 100:nYCenter + 350,
+                           (int)(nXCenter + (nXCenter / 2)):nWidth - 300]
+        return self.is_job_possible(oCropImage)
+
+
 class AlvinsSchatzsuche(Task):
 
     def __init__(self):
@@ -29,8 +69,7 @@ class AlvinsSchatzsuche(Task):
 
     def ropes_to_array(self, oRangeRopes):
         #unendliche Zeilen, 5 Spalten
-        aResult = [0][0, 0, 0, 0, 0]
-
+        #aResult = [0][0, 0, 0, 0, 0]
         pass
 
     def recognize_ropes_of_image(self):
@@ -59,4 +98,3 @@ class AlvinsSchatzsuche(Task):
         cv2.waitKey(0)
         cv2.destroyAllWindows()
         return oResult
-
