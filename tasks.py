@@ -28,6 +28,19 @@ class Nebel(Task):
     def __init__(self):
         super(Task, self).__init__()
 
+    def is_nebel_main(self):
+        #https://stackoverflow.com/questions/7853628/how-do-i-find-an-image-contained-within-an-image
+        #search image in image
+        oImage = cv2.imread('assets/nebel-racketenwrack-weiter.png')
+        oImageTemplate = cv2.imread('assets/nebel-main.png')
+        a_Res = cv2.matchTemplate(oImage, oImageTemplate, cv2.TM_CCOEFF_NORMED)
+        n_Threshold = 0.8
+        a_Loc = np.where(a_Res >= n_Threshold)
+        n_count_matches = 0
+        for a_Pt in zip(*a_Loc[::-1]):  # Switch collumns and rows
+            n_count_matches += 1
+        return n_count_matches >= 1
+
     def is_job_possible(self, oCropImage):
         #prüben ob die Farbe Rot in einem bestimmten Bereich vorhanden ist
         aRedLower = np.array([0, 0, 128])
@@ -47,7 +60,7 @@ class Nebel(Task):
         nXCenter = (int)(nWidth / 2)
         nYCenter = (int)(nHeight / 2)
         oCropImage = oImage[nYCenter - 50:nYCenter + 30,
-                           (int)(nXCenter + (nXCenter / 2)):nWidth - 300]
+                            (int)(nXCenter + (nXCenter / 2)):nWidth - 300]
         return self.is_job_possible(oCropImage)
 
     def is_ubahn_eingang_possible(self):
@@ -58,7 +71,7 @@ class Nebel(Task):
         nXCenter = (int)(nWidth / 2)
         nYCenter = (int)(nHeight / 2)
         oCropImage = oImage[nYCenter + 100:nYCenter + 350,
-                           (int)(nXCenter + (nXCenter / 2)):nWidth - 300]
+                            (int)(nXCenter + (nXCenter / 2)):nWidth - 300]
         return self.is_job_possible(oCropImage)
 
 

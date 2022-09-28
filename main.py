@@ -6,7 +6,7 @@ from tasks import AlvinsSchatzsuche, Nebel
 def main():
     oAlvinsSchatzsuche = AlvinsSchatzsuche()
     oNebel = Nebel()
-    possible = oNebel.is_ubahn_eingang_possible()
+    possible = oNebel.is_nebel_main()
     print(possible)
     #oAlvinsSchatzsuche.calculate_center()
     #oAlvinsSchatzsuche.recognize_ropes_of_image()
